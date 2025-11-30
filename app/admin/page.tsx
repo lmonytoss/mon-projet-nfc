@@ -1,15 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "../utils/supabase";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   
-  // LE MOT DE PASSE (Change-le ici !)
+  // LE MOT DE PASSE
   const SECRET_PASSWORD = "admin-nfc-pro"; 
 
-  // --- Partie Formulaire (Comme avant) ---
+  // --- Partie Formulaire ---
   const [slug, setSlug] = useState("");
   const [url, setUrl] = useState("");
   const [message, setMessage] = useState("");
@@ -29,7 +29,7 @@ export default function AdminPage() {
     }
   }
 
-  // --- Fonction pour vérifier le mot de passe ---
+  // --- Fonction vérification ---
   function checkPassword() {
     if (passwordInput === SECRET_PASSWORD) {
       setIsAuthenticated(true);
@@ -38,7 +38,7 @@ export default function AdminPage() {
     }
   }
 
-  // SI PAS CONNECTÉ : On affiche juste la case mot de passe
+  // ECRAN DE VERROUILLAGE
   if (!isAuthenticated) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white p-4">
@@ -62,15 +62,12 @@ export default function AdminPage() {
     );
   }
 
-  // SI CONNECTÉ : On affiche le vrai formulaire (Le code d'avant)
+  // ECRAN ADMIN (Une fois connecté)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white p-4">
       <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg border border-blue-900">
-        <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-blue-400">Admin Panel</h1>
-            <button onClick={() => setIsAuthenticated(false)} className="text-xs text-gray-500 hover:text-white">Se déconnecter</button>
-        </div>
-
+        <h1 className="text-2xl font-bold mb-6 text-blue-400">Admin Panel</h1>
+        
         <div className="mb-4">
           <label className="block text-sm mb-2">Code (Slug)</label>
           <input
@@ -93,14 +90,11 @@ export default function AdminPage() {
           />
         </div>
 
-        <button
-          onClick={createCard}
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded transition"
-        >
+        <button onClick={createCard} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded">
           Générer la carte
         </button>
 
-        {message && <p className="mt-4 text-center font-bold text-yellow-400">{message}</p>}
+        {message && <p className="mt-4 text-center text-yellow-400">{message}</p>}
       </div>
     </div>
   );
